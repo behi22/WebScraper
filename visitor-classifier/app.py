@@ -35,7 +35,7 @@ nlp = spacy.load("en_core_web_sm")
 DB_HOST = os.getenv('DB_HOST', 'localhost')
 DB_NAME = os.getenv('DB_NAME', 'visitor_classifier')
 DB_USER = os.getenv('DB_USER', 'postgres')
-DB_PASSWORD = os.getenv('DB_PASSWORD', '***REMOVED***')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'Password')
 
 def get_db_connection():
     conn = psycopg2.connect(
