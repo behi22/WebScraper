@@ -1,7 +1,3 @@
 *.env
 
-passwords.txt
-
-bfg-1.14.0.jar
-
 git-filter-repo
