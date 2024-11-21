@@ -15,4 +15,9 @@ const visitorSlice = createSlice({
 });
 
 export const { setQuestions, saveResponse } = visitorSlice.actions;
-export default configureStore({ reducer: visitorSlice.reducer });
+
+const store = configureStore({
+  reducer: visitorSlice.reducer,
+});
+
+export default store;

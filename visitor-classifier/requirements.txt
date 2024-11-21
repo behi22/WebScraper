@@ -1,0 +1,7 @@
+Flask
+requests
+beautifulsoup4
+spacy
+scikit-learn
+redis
+psycopg2-binary

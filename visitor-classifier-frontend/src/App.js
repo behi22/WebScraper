@@ -9,10 +9,32 @@ function App() {
   const [url, setUrl] = useState('');
 
   const fetchQuestions = async () => {
-    const response = await axios.post('http://localhost:5000/classify', {
-      url,
-    });
-    dispatch(setQuestions(response.data.questions));
+    try {
+      if (!url) {
+        alert('Please enter a valid URL.');
+        return;
+      }
+
+      // debug
+      console.log('URL being sent:', url);
+
+      const response = await axios.post('http://localhost:5000/classify', {
+        url: url.trim(),
+      });
+
+      if (response.status === 200) {
+        dispatch(setQuestions(response.data.questions));
+      } else {
+        alert(`Error: ${response.data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      alert(
+        `Failed to fetch questions: ${
+          error.response?.data?.error || error.message
+        }`
+      );
+    }
   };
 
   const handleResponse = (question, response) => {
@@ -30,19 +52,23 @@ function App() {
       <button onClick={fetchQuestions}>Fetch Questions</button>
 
       <div>
-        {questions.map((q, index) => (
-          <div key={index}>
-            <h3>{q.question}</h3>
-            {q.options.map((option, i) => (
-              <button
-                key={i}
-                onClick={() => handleResponse(q.question, option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        ))}
+        {questions.length > 0 ? (
+          questions.map((q, index) => (
+            <div key={index}>
+              <h3>{q.question}</h3>
+              {q.options.map((option, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleResponse(q.question, option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          ))
+        ) : (
+          <p>No questions available. Enter a URL to generate questions.</p>
+        )}
       </div>
     </div>
   );
