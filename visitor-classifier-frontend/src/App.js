@@ -31,7 +31,7 @@ function App() {
     const validUrl = /^https?:\/\//i.test(url) ? url : `https://${url}`;
 
     // Debugging: Log the URL being sent
-    console.log('URL being sent to backend:', validUrl);
+    // console.log('URL being sent to backend:', validUrl);
 
     try {
       const response = await axios.post('http://localhost:5000/classify', {
@@ -69,8 +69,11 @@ function App() {
         questions={questions}
         fetchQuestions={fetchQuestions}
         handleResponse={handleResponse}
-        setUrl={setUrl} // Pass setUrl down to Home
+        setUrl={setUrl}
         url={url} // Pass the URL state to Home (to sync URL across components)
+        error={error}
+        setError={setError}
+        closeErrorModal={closeErrorModal}
       />
 
       {/* Error Modal */}

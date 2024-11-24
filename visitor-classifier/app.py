@@ -135,30 +135,37 @@ def generate_questions(content, from_url=True):
     # Define question templates with dynamic options based on the content
     question_templates = [
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"What is your opinion on '{t}'?",
             "options": generate_dynamic_options(t, "opinion")
         },
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"Would you like to learn more about '{t}'?",
             "options": ["Yes", "No"]
         },
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"How important is '{t}' to you?",
             "options": generate_dynamic_options(t, "importance")
         },
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"Where do you think '{t}' fits best?",
             "options": generate_dynamic_options(t, "fit")
         },
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"On a scale of 1-5, how would you rate your interest in '{t}'?",
             "options": generate_dynamic_options(t, "interest")
         },
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"Do you agree with the statement: '{t}' is revolutionary?",
             "options": generate_dynamic_options(t, "agreement")
         },
         lambda t: {
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": f"What challenges might you foresee with '{t}'?",
             "options": generate_dynamic_options(t, "challenges")
         },
@@ -180,6 +187,7 @@ def generate_questions(content, from_url=True):
     # Fallback question if none are generated
     if not questions:
         questions.append({
+            "questionId": random.randint(1000, 9999),  # Add unique question ID
             "question": "What is your overall impression of this content?",
             "options": ["Interesting", "Boring", "Confusing"]
         })

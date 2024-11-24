@@ -9,16 +9,64 @@ export const StyledQuestionCard = styled.div`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
-export const StyledOptionButton = styled.button`
-  margin: 0.5rem 0.5rem 0 0;
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #4caf50;
-  color: white;
+export const StyledOptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const StyledOptionRadio = styled.label`
+  display: block;
+  position: relative;
   cursor: pointer;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+
+  /* Highlight border when selected */
+  ${({ selected }) =>
+    selected &&
+    `
+      border-color: #4caf50;
+      box-shadow: 0 0 5px #4caf50;
+    `}
 
   &:hover {
-    background-color: #388e3c;
+    background-color: #f7f7f7;
+    border-color: #bbb;
   }
+
+  input {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+
+  /* Highlight circle when selected */
+  ${({ selected }) =>
+    selected &&
+    `
+      &::before {
+        border-color: #4caf50;
+        background: #4caf50;
+      }
+    `}
+`;
+
+export const StyledOptionText = styled.span`
+  margin-left: 30px;
 `;
