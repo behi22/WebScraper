@@ -2,36 +2,54 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setQuestions, saveResponse } from './store';
+import Home from './pages/Home';
+import ErrorModal from './components/ErrorModal/ErrorModal';
 
 function App() {
   const dispatch = useDispatch();
   const questions = useSelector((state) => state.questions);
+  const [error, setError] = useState(null);
   const [url, setUrl] = useState('');
 
   const fetchQuestions = async () => {
+    // Reset error before every request
+    setError(null);
+    // Clear existing questions
+    dispatch(setQuestions([]));
+
+    // Enhanced URL validation (matches domain names ending in .com, .org, .ca, etc.)
+    const urlPattern =
+      /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[^\s]*)?$/;
+
+    // If the URL is invalid, show an error message
+    if (!url || !urlPattern.test(url.trim())) {
+      setError('Please enter a valid URL.');
+      return;
+    }
+
+    // If the URL doesn't have a protocol, prepend "https://"
+    const validUrl = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+
+    // Debugging: Log the URL being sent
+    console.log('URL being sent to backend:', validUrl);
+
     try {
-      if (!url) {
-        alert('Please enter a valid URL.');
-        return;
-      }
-
-      // debug
-      console.log('URL being sent:', url);
-
       const response = await axios.post('http://localhost:5000/classify', {
-        url: url.trim(),
+        url: validUrl.trim(),
       });
 
       if (response.status === 200) {
         dispatch(setQuestions(response.data.questions));
       } else {
-        alert(`Error: ${response.data.error || 'Unknown error'}`);
+        setError(
+          `Error: ${response.data.error || 'An unknown error occurred.'}`
+        );
       }
     } catch (error) {
       console.error('Error fetching questions:', error);
-      alert(
+      setError(
         `Failed to fetch questions: ${
-          error.response?.data?.error || error.message
+          error.response?.data?.error || error.message || 'Unknown error'
         }`
       );
     }
@@ -41,36 +59,23 @@ function App() {
     dispatch(saveResponse({ question, response }));
   };
 
-  return (
-    <div className="App">
-      <h1>Visitor Classification</h1>
-      <input
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="Enter website URL"
-      />
-      <button onClick={fetchQuestions}>Fetch Questions</button>
+  const closeErrorModal = () => {
+    setError(null);
+  };
 
-      <div>
-        {questions.length > 0 ? (
-          questions.map((q, index) => (
-            <div key={index}>
-              <h3>{q.question}</h3>
-              {q.options.map((option, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleResponse(q.question, option)}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          ))
-        ) : (
-          <p>No questions available. Enter a URL to generate questions.</p>
-        )}
-      </div>
-    </div>
+  return (
+    <>
+      <Home
+        questions={questions}
+        fetchQuestions={fetchQuestions}
+        handleResponse={handleResponse}
+        setUrl={setUrl} // Pass setUrl down to Home
+        url={url} // Pass the URL state to Home (to sync URL across components)
+      />
+
+      {/* Error Modal */}
+      {error && <ErrorModal message={error} onClose={closeErrorModal} />}
+    </>
   );
 }
 
