@@ -5,6 +5,6 @@ export const StyledHeader = styled.header`
   color: white;
   padding: 1rem 2rem;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
