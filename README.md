@@ -22,6 +22,8 @@ WebScraper
 
 A Single Page Application that takes a website URL as input, scrapes its content, and classifies visitors based on their interests or industry. The goal is to dynamically generate questions and multiple-choice options that help categorize users visiting the site.
 
+- Project Presentation: [Loom Video](https://www.loom.com/share/84359f4e50ee41fc97b21f921d9aa4a0?sid=a69fe144-e797-46e1-8a23-09a507a4b98a)
+
 - The most Up-to-date and Deployed <b>Frontend</b> Repo can be viewed at: https://github.com/behi22/visitor-classifier-frontend
 
 - The most Up-to-date and Deployed <b>Backend</b> Repo can be viewed at: https://github.com/behi22/visitor-classifier
